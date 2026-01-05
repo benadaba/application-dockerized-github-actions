@@ -1,10 +1,28 @@
 #name of the workflow
 name: Dockerizing Application
 
-#trigger the workflow on push or pull request
+#trigger the workflow on push or pull request. when should we run this workflow
 on:
   push:
     branches: ["main"]
+
+#what should we run
+jobs:
+  build-run-docker-image:
+    runs-on: ubuntu-latest #specifies the runner to build the job
+    steps: 
+      - name: Checkout repository content
+        uses: actions/checkout@v3
+      
+      - name: check content of the repository
+        run: ls -lart
+
+
+  # second-job:
+
+  # third-jobs
+
+
 
 
 
