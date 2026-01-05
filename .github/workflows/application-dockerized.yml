@@ -32,6 +32,13 @@ jobs:
           push: true
           tags: datapandassandbox/application-dockerize-gha:latest
 
+      - name: Launch EC2 Instance
+        run: |
+          aws ec2 run-instances \
+          --image-id ami-099400d52583dd8c4 \
+          --instance-type t2.micro \
+          --key-name April2024key1
+
       
 
 
