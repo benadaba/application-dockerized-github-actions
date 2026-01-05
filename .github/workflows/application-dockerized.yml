@@ -47,6 +47,10 @@ jobs:
           --instance-type t2.micro \
           --key-name April2024key1
 
+      - name: create security group
+        run: |
+          aws ec2 create-security-group --group-name MySecurityGroupGHA2026 --description "My security group MySecurityGroupGHA2026"
+
 
 
 
