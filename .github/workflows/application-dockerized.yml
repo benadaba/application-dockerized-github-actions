@@ -47,13 +47,20 @@ jobs:
           --instance-type t2.micro \
           --key-name April2024key1
 
-      - name: create security group
+      - name: create or Reuse security group
         run: |
-          aws ec2 create-security-group --group-name MySecurityGroupGHA2026_v2 --description "My security group MySecurityGroupGHA2026" --vpc-id vpc-b9b523d0
-          aws ec2 authorize-security-group-ingress group-id sg-1234567890abcdef0 \
-          --protocol tcp \
-          --port 22 \
-          --cidr 0.0.0.0/0 
+
+          aws ec2 describe-security-groups \
+          --filters Name=group-name,Values=MySecurityGroupGHA2026_v2  \
+          --query "SecurityGroups[*].{,ID:GroupId}"  --output text
+
+          # aws ec2 create-security-group --group-name MySecurityGroupGHA2026_v2 --description "My security group MySecurityGroupGHA2026" --vpc-id vpc-b9b523d0
+          
+          
+          # aws ec2 authorize-security-group-ingress group-id sg-1234567890abcdef0 \
+          # --protocol tcp \
+          # --port 22 \
+          # --cidr 0.0.0.0/0 
 
   # second-job:
 
