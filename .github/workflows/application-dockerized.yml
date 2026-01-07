@@ -54,6 +54,13 @@ jobs:
           --filters Name=group-name,Values=MySecurityGroupGHA2026_v2  \
           --query "SecurityGroups[*].{ID:GroupId}"  --output text
 
+          if [ security_group = "None" ] || [ -z "$security_group" ]; then
+            echo "Security group does not exist. Creating a new one."
+          else
+            echo "Security group exists. Reusing the existing one."
+            exit 0
+          fi
+
           # aws ec2 create-security-group --group-name MySecurityGroupGHA2026_v2 --description "My security group MySecurityGroupGHA2026" --vpc-id vpc-b9b523d0
           
           
