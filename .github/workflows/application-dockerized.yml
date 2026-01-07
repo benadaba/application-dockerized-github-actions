@@ -55,12 +55,12 @@ jobs:
 
           if [ $security_group = "None" ] || [ -z "$security_group" ]; then
             echo "Security group does not exist. Creating a new one."
+            aws ec2 create-security-group --group-name MySecurityGroupGHA2026_v2 --description "My security group MySecurityGroupGHA2026" --vpc-id vpc-b9b523d0
           else
             echo "Security group exists. Reusing the existing one."
             exit 0
           fi
 
-          # aws ec2 create-security-group --group-name MySecurityGroupGHA2026_v2 --description "My security group MySecurityGroupGHA2026" --vpc-id vpc-b9b523d0
           
           
           # aws ec2 authorize-security-group-ingress group-id sg-1234567890abcdef0 \
