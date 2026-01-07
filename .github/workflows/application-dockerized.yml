@@ -76,14 +76,14 @@ jobs:
 
           if [ $security_group = "None" ] || [ -z "$security_group" ]; then
             echo "Security group does not exist. Creating a new one."
-            echo "::set-output name=sg_id::$security_group"
+            echo "::set-output name=sg_id::false"
           else
             echo "Security group exists. Reusing the existing one."
-            echo "::set-output name=sg_id::$security_group"
+            echo "::set-output name=sg_id::true"
           fi
 
       - name: create security group if not exists 
-        if: steps.security_group_exists.output.sg_id == ${{ security_group_exists }}
+        if: steps.security_group_exists.output.sg_id == true
         run: |
           aws ec2 create-security-group --group-name MySecurityGroupGHA2026_v2 --description "My security group MySecurityGroupGHA2026" --vpc-id vpc-b9b523d0
 
