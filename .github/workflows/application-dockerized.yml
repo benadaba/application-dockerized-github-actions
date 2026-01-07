@@ -49,12 +49,11 @@ jobs:
 
       - name: create or Reuse security group
         run: |
-
-          aws ec2 describe-security-groups \
+          security_group=$(aws ec2 describe-security-groups \
           --filters Name=group-name,Values=MySecurityGroupGHA2026_v2  \
-          --query "SecurityGroups[*].{ID:GroupId}"  --output text
+          --query "SecurityGroups[*].{ID:GroupId}"  --output text)
 
-          if [ security_group = "None" ] || [ -z "$security_group" ]; then
+          if [ $security_group = "None" ] || [ -z "$security_group" ]; then
             echo "Security group does not exist. Creating a new one."
           else
             echo "Security group exists. Reusing the existing one."
