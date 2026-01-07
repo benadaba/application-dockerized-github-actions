@@ -49,7 +49,7 @@ jobs:
 
       - name: create security group
         run: |
-          aws ec2 create-security-group --group-name MySecurityGroupGHA2026 --description "My security group MySecurityGroupGHA2026"
+          aws ec2 create-security-group --group-name MySecurityGroupGHA2026_v2 --description "My security group MySecurityGroupGHA2026"
 
 
 
