@@ -52,7 +52,7 @@ jobs:
 
           aws ec2 describe-security-groups \
           --filters Name=group-name,Values=MySecurityGroupGHA2026_v2  \
-          --query "SecurityGroups[*].{,ID:GroupId}"  --output text
+          --query "SecurityGroups[*].{ID:GroupId}"  --output text
 
           # aws ec2 create-security-group --group-name MySecurityGroupGHA2026_v2 --description "My security group MySecurityGroupGHA2026" --vpc-id vpc-b9b523d0
           
