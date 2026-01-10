@@ -39,14 +39,6 @@ jobs:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
       
-
-      - name: Launch EC2 Instance
-        run: |
-          aws ec2 run-instances \
-          --image-id ami-099400d52583dd8c4 \
-          --instance-type t2.micro \
-          --key-name April2024key1
-
       #option 1. use bash all throughout 
       # - name: create or Reuse security group
       #   run: |
@@ -112,6 +104,17 @@ jobs:
             --group-name MySecurityGroupGHA2026_v2 \
             --description "My security group MySecurityGroupGHA2026" \
             --vpc-id vpc-b9b523d0
+
+
+      - name: Launch EC2 Instance
+        run: |
+          aws ec2 run-instances \
+          --image-id ami-099400d52583dd8c4 \
+          --instance-type t2.micro \
+          --key-name April2024key1 \
+          --security-groups MySecurityGroupGHA2026_v2 \
+          --tag-specifications 'ResourceType=instance,Tags=[{Key=Name,Value=GithubActionInstance}]'
+
 
 
   # second-job:
