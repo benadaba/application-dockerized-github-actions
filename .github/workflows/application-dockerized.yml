@@ -107,6 +107,7 @@ jobs:
             --vpc-id vpc-b9b523d0
 
       - name: add security group ingress rules
+        if: steps.security_group_exists.outputs.sg_id == 'false'
         run: |
           aws ec2 authorize-security-group-ingress \
             --group-name MySecurityGroupGHA2026_v2 \
