@@ -80,7 +80,7 @@ jobs:
       #     else
       #       echo "Security group exists. Reusing the existing one."
       #       echo "::set-output name=sg_id::true"
-      #     fi
+      #     fi 
       - name: check if security group exists
         id: security_group_exists
         run: |
