@@ -102,4 +102,6 @@ jobs:
 
     - name: install k8s cluster
       run: |
-         ./install-k8s-cluster.sh
+        ls -lart
+        chmod +x ./install-k8s-cluster.sh
+        ./install-k8s-cluster.sh
