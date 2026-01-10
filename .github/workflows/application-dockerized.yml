@@ -74,7 +74,7 @@ jobs:
           --filters Name=group-name,Values=MySecurityGroupGHA2026_v2  \
           --query "SecurityGroups[*].{ID:GroupId}"  --output text)
 
-          if [ $security_group = "None" ] || [ -z "$security_group" ]; then
+          if [ "$security_group" = "None" ] || [ -z "$security_group" ]; then
             echo "Security group does not exist. Creating a new one."
             echo "::set-output name=sg_id::false"
           else
