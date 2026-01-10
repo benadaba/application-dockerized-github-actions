@@ -96,6 +96,10 @@ jobs:
       uses: azure/setup-kubectl@v3
       with:
         version: 'latest'
-     
-    - name: Test Kubernetes installlation
+
+    - name: Test kubectl installation
       run: kubectl version --client
+
+    - name: install k8s cluster
+      run: |
+         ./install-k8s-cluster.sh
