@@ -143,6 +143,12 @@ jobs:
       run: |
         kubectl apply -f deployment-and-service.yml
 
+    - name: wait for deployment to be ready
+      run: |
+        echo "Waiting for deployment to be ready..."
+        sleep 60
+        kubectl rollout status deployment/gha-dockerized-k8s-website --timeout=60s
+
     - name: Verify Deployment
       run: |
         kubectl get deployments
