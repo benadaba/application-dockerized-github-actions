@@ -139,5 +139,14 @@ jobs:
     - name: kubectl get nodes
       run: kubectl get nodes
 
+    - name: Deploy to Kubernetes
+      run: |
+        kubectl apply -f deployment-and-service.yml
+
+    - name: Verify Deployment
+      run: |
+        kubectl get deployments
+        kubectl get services
+
 
  
