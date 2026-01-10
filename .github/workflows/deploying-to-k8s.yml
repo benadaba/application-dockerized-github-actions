@@ -9,11 +9,11 @@ on:
       create_k8s_cluster:
         description: "Whether or not to create the k8s cluster"
         required: true
-        default: "no"
+        default: "yes"
       destroy_k8s_cluster:
         description: "Whether or not to destroy the k8s cluster"
         required: true
-        default: "yes"
+        default: "no"
 
 
 
