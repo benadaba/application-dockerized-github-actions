@@ -4,7 +4,7 @@ name: Dockerizing Application
 #trigger the workflow on push or pull request. when should we run this workflow
 on:
   push:
-    branches: ["main"]
+    branches: ["branch-dockerize-application"]
 
 #what should we run
 jobs:
