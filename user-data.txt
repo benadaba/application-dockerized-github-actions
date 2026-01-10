@@ -1,9 +1,7 @@
 #!/bin/bash
-sudo hostname docker
-sudo hostnamectl set hostname docker
 sudo yum update -y
 sudo yum install docker -y
 sudo usermod -aG docker ec2-user
-sudo systemctl start docker
 sudo systemctl enable docker 
+sudo systemctl start docker
 sudo docker run -d --name docker-app-website -p 80:80  datapandassandbox/application-dockerize-gha

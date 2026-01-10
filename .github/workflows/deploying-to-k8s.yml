@@ -1,0 +1,12 @@
+name: Deploy to Kubernetes Environment
+
+on: 
+  push:
+
+
+jobs:
+  deploy-to-k8s:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout repository content
+      uses: actions/checkout@v3
