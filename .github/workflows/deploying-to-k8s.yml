@@ -4,6 +4,14 @@ on:
   push:
     branches: ["main"]
 
+  workflow_dispatch:
+    inputs:
+      create_k8s_cluster:
+        description: "Whether or not to create the k8s cluster"
+        required: true
+        default: "no"
+
+
 
 jobs:
   deploy-to-k8s:
@@ -118,10 +126,22 @@ jobs:
 
 
     - name: install k8s cluster
+      if: github.event.inputs.create_k8s_cluster == 'yes'
       run: |
         ls -lart
         chmod +x ./install-k8s-cluster.sh
         ./install-k8s-cluster.sh
+
+    - name: install awscli v2
+      run: |
+        curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+        unzip awscliv2.zip
+        sudo ./aws/install
+        aws --version
+
+    - name: Update kubeconfig
+      run: |
+        aws eks update-kubeconfig --region eu-west-2 --name ghaCluster
 
 
  
