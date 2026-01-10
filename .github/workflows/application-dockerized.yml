@@ -83,7 +83,7 @@ jobs:
           fi
 
       - name: create security group if not exists 
-        if: steps.security_group_exists.output.sg_id == true
+        if: steps.security_group_exists.output.sg_id == "false"
         run: |
           aws ec2 create-security-group --group-name MySecurityGroupGHA2026_v2 --description "My security group MySecurityGroupGHA2026" --vpc-id vpc-b9b523d0
 
