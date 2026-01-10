@@ -11,3 +11,28 @@ jobs:
     steps:
     - name: Checkout repository content
       uses: actions/checkout@v3 
+
+    - name: check content of the repository
+      run: ls -lart
+
+    - name: check if Docker is installed
+      run: docker --version
+
+    - name: Login to DockerHub
+      uses: docker/login-action@v3
+      with:
+        username: ${{ vars.DOCKERHUB_USERNAME }}
+        password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+    - name: Build and push Docker 
+      uses: docker/build-push-action@v6
+      with:
+        push: true
+        tags: datapandassandbox/application-dockerize-gha:latest
+
+    - name: Configure AWS Credentials 2
+      uses: aws-actions/configure-aws-credentials@v5.1.1
+      with:
+        aws-region: eu-west-2
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
