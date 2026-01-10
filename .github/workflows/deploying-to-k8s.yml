@@ -10,6 +10,10 @@ on:
         description: "Whether or not to create the k8s cluster"
         required: true
         default: "no"
+      destroy_k8s_cluster:
+        description: "Whether or not to destroy the k8s cluster"
+        required: true
+        default: "yes"
 
 
 
@@ -153,6 +157,11 @@ jobs:
       run: |
         kubectl get deployments
         kubectl get services
+
+    - name: Destroy k8s cluster
+      if: github.event.inputs.destroy_k8s_cluster == 'yes'
+      run: |
+        eksctl delete cluster --name ghaCluster --region eu-west-2
 
 
  
