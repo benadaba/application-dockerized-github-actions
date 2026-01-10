@@ -36,3 +36,56 @@ jobs:
         aws-region: eu-west-2
         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        
+
+    - name: check if security group exists
+      id: security_group_exists
+      run: |
+        security_group=$(aws ec2 describe-security-groups \
+          --filters Name=group-name,Values=MySecurityGroupGHA2026_v2 \
+          --query "SecurityGroups[*].{ID:GroupId}" \
+          --output text)
+
+        echo "Security group value: $security_group"
+
+        if [ "$security_group" = "None" ] || [ -z "$security_group" ]; then
+          echo "Security group does not exist. Creating a new one."
+          echo "sg_id=false" >> "$GITHUB_OUTPUT"
+        else
+          echo "Security group exists. Reusing the existing one."
+          echo "sg_id=true" >> "$GITHUB_OUTPUT"
+        fi
+        
+    - name: create security group if not exists
+      id: create_sg
+      if: steps.security_group_exists.outputs.sg_id == 'false'
+      run: |
+        aws ec2 create-security-group \
+          --group-name MySecurityGroupGHA2026_v2 \
+          --description "My security group MySecurityGroupGHA2026" \
+          --vpc-id vpc-b9b523d0
+
+    - name: add security group ingress rules
+      if: steps.security_group_exists.outputs.sg_id == 'false'
+      run: |
+        aws ec2 authorize-security-group-ingress \
+          --group-name MySecurityGroupGHA2026_v2 \
+          --protocol tcp \
+          --port 22 \
+          --cidr 0.0.0.0/0  
+        aws ec2 authorize-security-group-ingress \
+          --group-name MySecurityGroupGHA2026_v2 \
+          --protocol tcp \
+          --port 80 \
+          --cidr 0.0.0.0/0
+
+
+    - name: Launch EC2 Instance
+      run: |
+        aws ec2 run-instances \
+        --image-id ami-099400d52583dd8c4 \
+        --instance-type t2.micro \
+        --key-name April2024key1 \
+        --security-groups MySecurityGroupGHA2026_v2 \
+        --user-data file://user-data.txt \
+        --tag-specifications 'ResourceType=instance,Tags=[{Key=Name,Value=GithubActionInstance}]'
