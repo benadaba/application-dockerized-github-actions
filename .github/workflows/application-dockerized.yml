@@ -98,12 +98,26 @@ jobs:
       #     aws ec2 create-security-group --group-name MySecurityGroupGHA2026_v2 --description "My security group MySecurityGroupGHA2026" --vpc-id vpc-b9b523d0
 
       - name: create security group if not exists
+        id: create_sg
         if: steps.security_group_exists.outputs.sg_id == 'false'
         run: |
           aws ec2 create-security-group \
             --group-name MySecurityGroupGHA2026_v2 \
             --description "My security group MySecurityGroupGHA2026" \
             --vpc-id vpc-b9b523d0
+            
+      - name: add security group ingress rules
+        run: |
+          aws ec2 authorize-security-group-ingress \
+            --group-name MySecurityGroupGHA2026_v2 \
+            --protocol tcp \
+            --port 22 \
+            --cidr 0.0.0.0/0  
+          aws ec2 authorize-security-group-ingress \
+            --group-name MySecurityGroupGHA2026_v2 \
+            --protocol tcp \
+            --port 80 \
+            --cidr 0.0.0.0/0
 
 
       - name: Launch EC2 Instance
